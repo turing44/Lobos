@@ -10,14 +10,18 @@ class Jugador{
     }
 
     estaVivo(){
-        if(this.#estado==="vivo"){
+        if(this.#estado === "vivo"){
             return true;
-        }else if(this.#estado==="muerte"){
+        } else if(this.#estado === "muerto"){
             return false
         }
 
     }
     getRol(){
         return this.#rol;
+    }
+
+    matar() {
+        this.#estado = "muerto";
     }
 }
