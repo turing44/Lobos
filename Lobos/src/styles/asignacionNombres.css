@@ -4,7 +4,39 @@ body{
     margin: auto;
     padding: 0;
 }
-
 .forms{
+    margin-top: 15%;
+}
+img{
+    margin:20px;
+    width:12%;
+}
+label{
+    margin-bottom: 10px;
+    font-family: Georgia sans-serif;
+    font-size: 20px;
+}
+input{
+    width:12%;
+    height: 40px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+.but {
+    font-family: Georgia sans-serif;
+    max-width: 500px;
+    height: 40px;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 100px;
+    border-style: none;
+    cursor: pointer;
 
+}
+
+.card{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
