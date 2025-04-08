@@ -2,8 +2,14 @@ class Juego {
     #fase;
     #turno;
     #listaJugadores = [];
-    #NUMERO_LOBOS = 1;
-    #NUMERO_JUGADORES = 5;
+    #numero_lobos = 1;
+    #numero_jugadores = 5;
+    #numero_aldeanos = this.#numero_jugadores - this.#numero_lobos
+
+
+    getFase() {
+        return this.#fase;
+    }
 
     reordenarLista(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -15,8 +21,8 @@ class Juego {
 
     iniciarJuego(listaNombres) {
         // Validar Lista
-        if (listaNombres.length < this.#NUMERO_JUGADORES) {
-            console.log("No hay suficientes nombres para iniciar el juego");
+        if (listaNombres.length < this.#numero_jugadores) {
+            console.error("No hay suficientes nombres para iniciar el juego");
             return;
         }
 
@@ -24,8 +30,8 @@ class Juego {
         listaNombres = this.reordenarLista(listaNombres);
 
         // Crear Jugadores
-        let lobosSinAsignar = this.#NUMERO_LOBOS;
-        listaNombres.forEach((nombre) => { // Cambié a arrow function
+        let lobosSinAsignar = this.#numero_lobos;
+        listaNombres.forEach((nombre) => { 
             if (lobosSinAsignar > 0) {
                 this.#listaJugadores.push(new Jugador(nombre, "lobo"));
             } else {
@@ -37,6 +43,22 @@ class Juego {
     }
 
     siguienteFase() {
+        if (this.#numero_aldeanos > this.#numero_lobos) {
+            this.#turno++;
 
+            this.#fase === 'dia' ? 'noche' : 'dia';
+
+        } else if (this.#numero_lobos <= 0) {
+            this.#fase = 'los aldeanos ganaron'
+        } else {
+            this.#fase = 'los lobos ganaron'
+        }
     }
+
+    matarJugador(jugador) {
+        jugador.matar();
+        jugador.getRol() === 'lobo' ? this.#numero_lobos-- : this.#numero_aldeanos--; 
+    }
+
+
 }
