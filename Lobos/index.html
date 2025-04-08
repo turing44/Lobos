@@ -21,7 +21,7 @@
 				<input type="checkbox" class="form-check-input" id="exampleCheck1" onclick="handleCheckClick(event)">
 				<label class="form-check-label" for="exampleCheck1">Normas</label>
 			</div>
-			<button type="submit" class="btn btn-degrade-blue w-100">¡A JUGAR!</button>
+			<button type="submit" id="jugarBtn" class="btn btn-degrade-blue w-100" disabled>¡A JUGAR!</button>
 		</form>
 	</div>
 
@@ -33,14 +33,17 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
 				</div>
 				<div class="modal-body">
-					<p>Estas son las normas del juego Pueblo Duerme:</p>
+					<p>Estas son las normas del Pueblo Duerme:</p>
 					<ul>
 						<li>No hables mientras el pueblo duerme.</li>
-						<li>Respeta el rol de cada jugador.</li>
-						<li>Sigue las instrucciones del narrador.</li>
+						<li>No le digas tu rol a nadie.</li>
+						<li>Escucha atentamente al narrador.</li>
+						<li>Sobrevive.😈</li>
 					</ul>
 				</div>
 				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary" onclick="desmarcarCheck()"
+						data-bs-dismiss="modal">No aceptar</button>
 					<button type="button" class="btn btn-degrade-blue" data-bs-dismiss="modal"
 						onclick="marcarCheck()">Entendido</button>
 				</div>
@@ -52,15 +55,38 @@
 		</script>
 	<script>
 		function handleCheckClick(event) {
-			event.preventDefault(); // Previene el marcado del checkbox
+			event.preventDefault();
 			const modal = new bootstrap.Modal(document.getElementById('normasModal'));
 			modal.show();
 		}
 
 		function marcarCheck() {
-			document.getElementById('exampleCheck1').checked = true;
+			const check = document.getElementById('exampleCheck1');
+			check.checked = true;
+			actualizarBoton();
 		}
+
+		function desmarcarCheck() {
+			const check = document.getElementById('exampleCheck1');
+			check.checked = false;
+			actualizarBoton();
+		}
+
+		function actualizarBoton() {
+			const check = document.getElementById('exampleCheck1');
+			const boton = document.getElementById('jugarBtn');
+			boton.disabled = !check.checked;
+		}
+
+		document.querySelector('form').addEventListener('submit', function (e) {
+			const check = document.getElementById('exampleCheck1');
+			if (!check.checked) {
+				e.preventDefault();
+				alert('Debes aceptar las normas antes de jugar 🧠');
+			}
+		});
 	</script>
+
 </body>
 
 </html>

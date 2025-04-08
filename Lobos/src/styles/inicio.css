@@ -26,10 +26,6 @@ root {
   box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
 }
 
-.mt-10 {
-  margin-top: 10px;
-}
-
 html, body {
   height: 100%;
   margin: 0;
