@@ -9,6 +9,10 @@ class Jugador{
         this.#estado="vivo";
     }
 
+    getNombre() {
+        return this.#nombre
+    }
+
     estaVivo(){
         if(this.#estado === "vivo"){
             return true;
