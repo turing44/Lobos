@@ -39,7 +39,7 @@ html, body {
 }
 
 body {
-  background-image: url('public/img-inicio.jpeg');
+  background-image: url('../../public/img-inicio.jpeg');
   background-size: cover;
   background-position: center;
   height: 100vh;
