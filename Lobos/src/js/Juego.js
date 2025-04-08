@@ -10,6 +10,9 @@ class Juego {
     getFase() {
         return this.#fase;
     }
+    get numero_aldeanos() {
+        return this.#numero_jugadores - this.#numero_lobos;
+    }
 
     reordenarLista(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -43,10 +46,10 @@ class Juego {
     }
 
     siguienteFase() {
-        if (this.#numero_aldeanos > this.#numero_lobos) {
+        if (this.numero_aldeanos > this.#numero_lobos) {
             this.#turno++;
 
-            this.#fase === 'dia' ? 'noche' : 'dia';
+            this.#fase = this.#fase === 'dia' ? 'noche' : 'dia';
 
         } else if (this.#numero_lobos <= 0) {
             this.#fase = 'los aldeanos ganaron'
@@ -56,8 +59,13 @@ class Juego {
     }
 
     matarJugador(jugador) {
+        const index = this.#listaJugadores.indexOf(jugador);// se comprueba si el jugador existe en la lista de jugadores.
+        if (index === -1) {
+            console.error("El jugador no está en la lista");
+            return;
+        }
         jugador.matar();
-        jugador.getRol() === 'lobo' ? this.#numero_lobos-- : this.#numero_aldeanos--; 
+        jugador.getRol() === 'lobo' ? this.#numero_lobos-- : this.numero_aldeanos--;
     }
 
 

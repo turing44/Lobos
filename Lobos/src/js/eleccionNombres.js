@@ -25,7 +25,6 @@ document.getElementById('formularioJugadores').addEventListener('submit', functi
 
     // Creamos un arreglo para guardar los nombres de los jugadores
     const jugadores = [];
-
     // Recogemos todos los campos de entrada
     const entradas = document.querySelectorAll('input[type="text"]');
 
