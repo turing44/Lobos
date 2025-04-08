@@ -1,41 +1,27 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Page Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jugadores</title>
     <link rel="stylesheet" href="../styles/asignacionNombres.css">
 </head>
 <body>
-<div class="forms">
-    <form class="card1">
-        <img src="https://img.icons8.com/?size=100&id=111473&format=png&color=000000" alt="personIcon">
-        <label for="fname">Nombre del Jugador: </label>
-        <input type="text" id="fname">
-        <button type="button">Submit</button>
-    </form>
-    <form class="card2">
-        <img src="https://img.icons8.com/?size=100&id=111473&format=png&color=000000" alt="personIcon">
-        <label for="Tname">Nombre del Jugador: </label>
-        <input type="text" id="Tname">
-        <button type="button">Submit</button>
-    </form>
-    <form class="card3">
-        <img src="https://img.icons8.com/?size=100&id=111473&format=png&color=000000" alt="personIcon">
-        <label for="Mname">Nombre del Jugador: </label>
-        <input type="text" id="Mname">
-        <button type="button">Submit</button>
-    </form>
-    <form class="card4">
-        <img src="https://img.icons8.com/?size=100&id=111473&format=png&color=000000" alt="personIcon">
-        <label for="Kname">Nombre del Jugador: </label>
-        <input type="text" id="Kname">
-        <button type="button">Submit</button>
-    </form>
-    <form class="card5">
-        <img src="https://img.icons8.com/?size=100&id=111473&format=png&color=000000" alt="personIcon">
-        <label for="lname">Nombre del Jugador: </label>
-        <input type="text" id="lname">
-        <button type="button">Submit</button>
+<div class="form-container">
+    <h2>Creación de Jugadores</h2>
+    <form id="formularioJugadores">
+        <div id="listaJugadores">
+            <!-- Primer campo para el jugador -->
+            <div class="player-input">
+                <label for="jugador1">Nombre del Jugador 1:</label>
+                <input type="text" id="jugador1" name="jugador1" required>
+            </div>
+        </div>
+        <button type="button" onclick="agregarJugador()">Añadir otro jugador</button>
+        <br><br>
+        <button type="submit">Enviar</button>
     </form>
 </div>
+<script src="../js/eleccionNombres.js"></script>
 </body>
 </html>
