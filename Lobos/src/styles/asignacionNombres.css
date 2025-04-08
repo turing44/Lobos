@@ -23,16 +23,23 @@ input{
     border-radius: 20px;
     border: 1px solid rgba(0, 0, 0, 0.3);
 }
-.but {
+.boton {
     font-family: Georgia sans-serif;
-    max-width: 500px;
-    height: 40px;
+    max-width: 600px;
+    height: 60px;
     font-size: 18px;
     padding: 10px 20px;
-    border-radius: 100px;
+    border-radius: 50px;
     border-style: none;
     cursor: pointer;
+    background-color: #b8ffd8;
 
+}
+.boton:hover{
+    transform: scale(1.05); /* Ligero aumento al pasar el mouse */
+}
+.boton:active {
+    transform: scale(0.95); /* Se reduce un poco al hacer clic */
 }
 
 .card{
