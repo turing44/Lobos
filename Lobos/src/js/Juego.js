@@ -10,8 +10,18 @@ class Juego {
     getFase() {
         return this.#fase;
     }
+    // Getter dinámico para el número de aldeanos vivos
     get numero_aldeanos() {
-        return this.#numero_jugadores - this.#numero_lobos;
+        return this.#listaJugadores.filter(jugador =>
+            jugador.getRol() === 'aldeano' && !jugador.estaMuerto()
+        ).length;
+    }
+
+    // Getter dinámico para el número de lobos vivos
+    get numero_lobos() {
+        return this.#listaJugadores.filter(jugador =>
+            jugador.getRol() === 'lobo' && !jugador.estaMuerto()
+        ).length;
     }
 
     reordenarLista(array) {

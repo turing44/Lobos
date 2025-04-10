@@ -1,6 +1,6 @@
 // Empezamos con un contador de jugadores en 1
 let contadorJugadores = 1;
-
+const juego = new Juego();
 // Función para agregar nuevos jugadores
 function agregarJugador() {
     contadorJugadores++; // Incrementamos el número del jugador

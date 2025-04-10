@@ -1,7 +1,7 @@
 class Jugador{
     #nombre;
     #rol =["aldeano","lobo"];
-    #estado;
+    #muerto= false;
 
     constructor(nombre,rol) {
         this.#nombre=nombre;
@@ -13,19 +13,14 @@ class Jugador{
         return this.#nombre
     }
 
-    estaVivo(){
-        if(this.#estado === "vivo"){
-            return true;
-        } else if(this.#estado === "muerto"){
-            return false
-        }
-
-    }
     getRol(){
         return this.#rol;
     }
 
     matar() {
-        this.#estado = "muerto";
+        this.#muerto = true;
+    }
+    estaMuerto(){
+       return this.#muerto;
     }
 }
