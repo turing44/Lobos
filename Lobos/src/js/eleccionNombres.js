@@ -1,6 +1,5 @@
-// Empezamos con un contador de jugadores en 1
 let contadorJugadores = 1;
-const juego = new Juego();
+
 // Función para agregar nuevos jugadores
 function agregarJugador() {
     contadorJugadores++; // Incrementamos el número del jugador
@@ -11,9 +10,9 @@ function agregarJugador() {
 
     // Creamos el HTML del nuevo campo de jugador
     nuevoCampoJugador.innerHTML = `
-                <label for="jugador${contadorJugadores}">Nombre del Jugador ${contadorJugadores}:</label>
-                <input type="text" id="jugador${contadorJugadores}" name="jugador${contadorJugadores}" required>
-            `;
+        <label for="jugador${contadorJugadores}">Nombre del Jugador ${contadorJugadores}:</label>
+        <input type="text" id="jugador${contadorJugadores}" name="jugador${contadorJugadores}" required>
+    `;
 
     // Agregamos el nuevo campo al formulario
     document.getElementById('listaJugadores').appendChild(nuevoCampoJugador);
@@ -30,9 +29,23 @@ document.getElementById('formularioJugadores').addEventListener('submit', functi
 
     // Agregamos cada valor de campo al arreglo de jugadores
     entradas.forEach(function(entrada) {
-        jugadores.push(entrada.value);
+        if (entrada.value.trim() !== '') {
+            jugadores.push(entrada.value.trim());
+        }
     });
 
-    // Mostramos los nombres de los jugadores
-    alert("Jugadores: " + jugadores.join(", "));
+    // Validar que haya al menos 5 jugadores
+    if (jugadores.length < 5) {
+        alert("Se requieren al menos 5 jugadores para iniciar el juego.");
+        return;
+    }
+
+    // Guardar los nombres en localStorage
+    localStorage.setItem('jugadores', JSON.stringify(jugadores));
+
+    // Mostrar los nombres de los jugadores (opcional, para depuración)
+    console.log("Jugadores guardados:", jugadores);
+
+    // Redirigir a la página del juego
+    window.location.href = '../pages/dashboardPersonajes.html';
 });

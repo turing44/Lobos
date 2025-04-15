@@ -1,0 +1,79 @@
+/* un estilo hecho por ChatGPT, habra que cambiarlo Josele*/
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
+
+#main-screen, #vote-screen {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#vote-screen {
+    display: none;
+}
+
+h2 {
+    text-align: center;
+}
+
+#player-list, #vote-list {
+    margin: 20px 0;
+}
+
+.player {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.player:hover {
+    background-color: #dee2e6;
+}
+
+.player.dead {
+    background-color: #dc3545;
+    color: white;
+    cursor: not-allowed;
+}
+
+.player.voted {
+    background-color: #6c757d;
+    color: white;
+    cursor: not-allowed;
+}
+
+#result {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+#result strong {
+    font-size: 1.2em;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

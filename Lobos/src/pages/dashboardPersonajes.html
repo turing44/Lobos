@@ -1,0 +1,30 @@
+<!--HTML hecho por chat GPT habra que cambiarlo o modificarlo -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Lobos</title>
+    <link rel="stylesheet" href="../styles/estiloParaVotacion.css">
+</head>
+<body>
+<div id="main-screen">
+    <h2>Jugadores</h2>
+    <div id="player-list"></div>
+    <button onclick="finalizarVotacion()">Finalizar Votación</button>
+</div>
+<div id="vote-screen" style="display: none;">
+    <h2>Votar para eliminar</h2>
+    <p>Votando como: <span id="current-player"></span></p>
+    <div id="vote-list"></div>
+    <button onclick="backToMain()">Volver</button>
+    <button onclick="siguienteFase()"> Cambiar fase </button>
+</div>
+<div id="result"></div>
+
+<script src="../js/Jugador.js"></script>
+<script src="../js/Juego.js"></script>
+<script src="../js/estiloVotar.js"></script>
+</body>
+</html>
