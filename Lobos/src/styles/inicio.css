@@ -26,10 +26,6 @@ root {
   box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
 }
 
-.mt-10 {
-  margin-top: 10px;
-}
-
 html, body {
   height: 100%;
   margin: 0;
@@ -40,4 +36,14 @@ html, body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+body {
+  background-image: url('../../public/img-inicio.jpeg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
