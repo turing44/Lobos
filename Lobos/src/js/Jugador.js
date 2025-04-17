@@ -2,8 +2,10 @@ class Jugador{
     #nombre;
     #rol =["aldeano","lobo"];
     #muerto= false;
-    #voto;
+    #voto = 0;
     #haVotado=false;
+    #aQuienVoto = null;
+    #votoA = null;
     constructor(nombre,rol) {
         this.#nombre=nombre;
         this.#rol=rol;
@@ -38,11 +40,21 @@ class Jugador{
         return this.#haVotado;
     }
 
-    marcarComoVotado() {
+    marcarComoVotado(nombreVotado) {
         this.#haVotado = true;
+        this.#votoA = nombreVotado;
+    }
+
+    getVotoA() {
+        return this.#votoA;
     }
 
     resetearVotoRonda() {
         this.#haVotado = false;
+        this.#votoA = null;
+    }
+
+    getAQuienVoto() {
+        return this.#aQuienVoto;
     }
 }

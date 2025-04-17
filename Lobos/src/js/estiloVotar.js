@@ -13,6 +13,12 @@ function agregarJugador() {
     const listaJugadores = document.getElementById('listaJugadores');
     if (!listaJugadores) return;
     const numJugadores = listaJugadores.children.length + 1;
+    const botonAgregar = document.getElementById('agregar');
+    if (listaJugadores.children.length === 5) {
+        alert('Lista de jugadores completa');
+        botonAgregar.style.display = 'none';
+        return;
+    }
 
     const playerDiv = document.createElement('div');
     playerDiv.className = 'player-input';
@@ -23,7 +29,7 @@ function agregarJugador() {
     listaJugadores.appendChild(playerDiv);
 }
 
-// Manejar el envío del formulario (para index.html)
+// Manejar el envío del formulario (para dashboardPersonajes.html)
 document.getElementById('formularioJugadores')?.addEventListener('submit', (event) => {
     event.preventDefault();
 
@@ -47,8 +53,8 @@ document.getElementById('formularioJugadores')?.addEventListener('submit', (even
             return;
         }
 
-        console.log('Redirigiendo a pantallaPrincipal.html');
-        window.location.href = 'pantallaPrincipal.html';
+        console.log('Redirigiendo a la pantalla principal.');
+        window.location.href = '../pages/dashboardPersonajes.html';
     } catch (error) {
         console.error('Error al procesar el formulario:', error);
         alert('Ocurrió un error. Revisa la consola para más detalles.');
@@ -61,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const playerList = document.getElementById('player-list');
     if (!playerList) {
-        console.log('No se encontró player-list, probablemente estamos en index.html');
+        console.log('No se encontró la lista de jugadores.');
         return;
     }
 
@@ -129,7 +135,7 @@ function renderMainScreen() {
             playerDiv.textContent = `${jugador.getNombre()} (Muerto)`;
         } else if (jugador.haVotado()) {
             playerDiv.classList.add('voted');
-            playerDiv.textContent = `${jugador.getNombre()} (Ya votó)`;
+            playerDiv.textContent = `${jugador.getNombre()} (Ha votado a: ${jugador.getVotoA()})`;
         } else {
             playerDiv.textContent = jugador.getNombre();
             playerDiv.onclick = () => {
@@ -305,7 +311,7 @@ function cambiarFase() {
     const fase = juego.getFase();
     console.log('Nueva fase:', fase);
     if (fase === 'los aldeanos ganaron' || fase === 'los lobos ganaron') {
-        alert(`¡Juego terminado! ${fase}`);
+        alert(`Juego terminado! ${fase}`);
         localStorage.removeItem('jugadores');
     }
 }

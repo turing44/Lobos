@@ -90,12 +90,13 @@ class Juego {
 
         // Validaciones
        if(!this.validarVoto(votante,votado)){
-           return false
+           return false;
        }
 
        //registrar voto
        votado.incrementarVoto();
-       votante.marcarComoVotado();
+       votante.marcarComoVotado(nombreVotado);
+
        return true;
     }
     validarVoto(votante,votado){
