@@ -1,5 +1,5 @@
-/*
-P.S MENSAJE DE ALYA: El codigo siguiente era generado todooooooo por ChatGPT, para probar si funcionan los metodos de clase juego , seguidemente si hara falto , se puede usar para finalizar el proyecto
+
+//P.S MENSAJE DE ALYA: El codigo siguiente era generado todooooooo por ChatGPT, para probar si funcionan los metodos de clase juego , seguidemente si hara falto , se puede usar para finalizar el proyecto
 
 
 
@@ -218,7 +218,6 @@ function vote(playerName) {
     console.log(`Registrando voto de ${currentVoter} por ${playerName}`);
 
     if (juego.votar(currentVoter, playerName)) {
-        alert(`Voto registrado: ${currentVoter} votó por ${playerName}`);
         backToMain();
 
         // Verificar si todos los jugadores vivos han votado
@@ -268,6 +267,39 @@ function finalizarVotacion() {
         console.error('Elemento result no encontrado');
     }
 
+    // Mostrar el botón de cambio de fase
+    const changePhaseButton = document.getElementById('change-phase');
+    if (changePhaseButton) {
+        changePhaseButton.style.display = 'block';
+    }
+
+    // Ocultar el botón de finalizar votación
+    const finalizeButton = document.getElementById('finalize-vote');
+    if (finalizeButton) {
+        finalizeButton.style.display = 'none';
+    }
+
+    renderMainScreen();
+}
+
+// Cambiar a la siguiente fase
+function cambiarFase() {
+    console.log('Cambiando fase');
+
+    juego.siguienteFase();
+
+    const resultElement = document.getElementById('result');
+    if (resultElement) {
+        resultElement.innerHTML = `<strong>Fase actual: ${juego.getFase()}</strong>`;
+    }
+
+
+    // Mostrar el botón de finalizar votación si la nueva fase es 'dia'
+    const finalizeButton = document.getElementById('finalize-vote');
+    if (finalizeButton && juego.getFase() === 'dia') {
+        finalizeButton.style.display = 'block';
+    }
+
     renderMainScreen();
 
     const fase = juego.getFase();
@@ -276,4 +308,4 @@ function finalizarVotacion() {
         alert(`¡Juego terminado! ${fase}`);
         localStorage.removeItem('jugadores');
     }
-}*/
+}

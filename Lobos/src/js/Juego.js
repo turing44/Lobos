@@ -114,7 +114,18 @@ class Juego {
         return true;
     }
     finalizarVotacion(){
-        this.jugadorConMasVotos();
+        const { jugadoresEliminados, maxVotos } = this.jugadorConMasVotos();
+
+        // Generar mensaje de resultado
+        let resultText;
+        if (jugadoresEliminados.length === 1) {
+            this.matarJugador(jugadoresEliminados[0]);
+            resultText = `El jugador ${jugadoresEliminados[0].getNombre()} ha sido eliminado por la votación.`;
+        } else if (jugadoresEliminados.length > 1) {
+            resultText = 'Hubo un empate en la votación. Nadie ha sido eliminado.';
+        } else {
+            resultText = 'Nadie recibió votos en esta ronda.';
+        }
         // Reiniciar votos solo de jugadores vivos
         this.#listaJugadores.forEach((jugador) => {
             if (!jugador.estaMuerto()) {
@@ -122,6 +133,7 @@ class Juego {
                 jugador.resetearVotoRonda();
             }
         });
+        return resultText;
     }
     jugadorConMasVotos(){
         let maxVotos=0;
@@ -137,9 +149,11 @@ class Juego {
                 }
             }
         });
-        if (jugadoresEliminados.length === 1) {
-            this.matarJugador(jugadoresEliminados[0]);
-        }
+
+        return {
+            jugadoresEliminados,
+            maxVotos
+        };
     }
 
 }
