@@ -1,317 +1,200 @@
-
-//P.S MENSAJE DE ALYA: El codigo siguiente era generado todooooooo por ChatGPT, para probar si funcionan los metodos de clase juego , seguidemente si hara falto , se puede usar para finalizar el proyecto
-
-
-
-
 const juego = new Juego();
 let iniciado = false;
-let currentVoter = null;
+let jugadorActual = null;
 
-// Función para agregar un nuevo campo de jugador (para index.html)
+// Utilidades
+const $ = (id) => document.getElementById(id);
+const mostrar = (id) => $(id).style.display = 'block';
+const ocultar = (id) => $(id).style.display = 'none';
+
+// Agrega un nuevo campo para nombre de jugador
 function agregarJugador() {
-    const listaJugadores = document.getElementById('listaJugadores');
-    if (!listaJugadores) return;
-    const numJugadores = listaJugadores.children.length + 1;
-    const botonAgregar = document.getElementById('agregar');
-    if (listaJugadores.children.length === 5) {
+    const contenedor = $('listaJugadores');
+    const btnAgregar = $('agregar');
+    if (!contenedor) return;
+
+    const total = contenedor.children.length;
+    if (total >= 5) {
         alert('Lista de jugadores completa');
-        botonAgregar.style.display = 'none';
+        btnAgregar.style.display = 'none';
         return;
     }
 
-    const playerDiv = document.createElement('div');
-    playerDiv.className = 'player-input';
-    playerDiv.innerHTML = `
-        <label for="jugador${numJugadores}">Nombre del Jugador ${numJugadores}:</label>
-        <input type="text" id="jugador${numJugadores}" name="jugador${numJugadores}" required>
+    const jugadorDiv = document.createElement('div');
+    jugadorDiv.className = 'player-input';
+    jugadorDiv.innerHTML = `
+        <label>Nombre del Jugador ${total + 1}:</label>
+        <input type="text" id="jugador${total + 1}" required>
     `;
-    listaJugadores.appendChild(playerDiv);
+    contenedor.appendChild(jugadorDiv);
 }
 
-// Manejar el envío del formulario (para dashboardPersonajes.html)
-document.getElementById('formularioJugadores')?.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    const inputs = document.querySelectorAll('#listaJugadores input');
-    const nombres = Array.from(inputs)
+// Enviar formulario con jugadores
+$('formularioJugadores')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nombres = Array.from(document.querySelectorAll('#listaJugadores input'))
         .map(input => input.value.trim())
-        .filter(nombre => nombre !== '');
+        .filter(Boolean);
 
     if (nombres.length < 5) {
-        alert('Se requieren al menos 5 jugadores para iniciar el juego.');
-        return;
+        return alert('Se requieren al menos 5 jugadores para iniciar.');
     }
 
     try {
         localStorage.setItem('jugadores', JSON.stringify(nombres));
-        console.log('Nombres guardados en localStorage:', nombres);
+        if (!juego.iniciarJuego(nombres)) throw new Error();
 
-        iniciado = juego.iniciarJuego(nombres);
-        if (!iniciado) {
-            alert('Error al inicializar el juego. Intenta de nuevo.');
-            return;
-        }
-
-        console.log('Redirigiendo a la pantalla principal.');
         window.location.href = '../pages/dashboardPersonajes.html';
-    } catch (error) {
-        console.error('Error al procesar el formulario:', error);
-        alert('Ocurrió un error. Revisa la consola para más detalles.');
+    } catch {
+        alert('Error al iniciar el juego.');
+        console.error('No se pudo iniciar el juego.');
     }
 });
 
-// Inicialización al cargar la página
+// Al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM cargado, inicializando juego');
+    const panel = $('player-list');
+    if (!panel) return;
 
-    const playerList = document.getElementById('player-list');
-    if (!playerList) {
-        console.log('No se encontró la lista de jugadores.');
+    const data = localStorage.getItem('jugadores');
+    if (!data) {
+        panel.innerHTML = '<p>No hay jugadores. Regresa y agrégalos.</p>';
         return;
     }
 
-    const nombresGuardados = localStorage.getItem('jugadores');
-    if (nombresGuardados) {
-        try {
-            const nombres = JSON.parse(nombresGuardados);
-            console.log('Nombres cargados desde localStorage:', nombres);
+    try {
+        const nombres = JSON.parse(data);
+        if (!Array.isArray(nombres) || nombres.length < 5) throw new Error();
 
-            if (!Array.isArray(nombres) || nombres.length < 5) {
-                console.error('Nombres inválidos en localStorage:', nombres);
-                playerList.innerHTML = '<p>Error: Datos de jugadores inválidos</p>';
-                return;
-            }
+        if (!juego.iniciarJuego(nombres)) throw new Error();
 
-            iniciado = juego.iniciarJuego(nombres);
-            if (!iniciado) {
-                console.error('No se pudo inicializar el juego con los nombres guardados');
-                playerList.innerHTML = '<p>Error: No se pudo iniciar el juego</p>';
-                return;
-            }
-
-            renderMainScreen();
-        } catch (error) {
-            console.error('Error al parsear nombres desde localStorage:', error);
-            playerList.innerHTML = '<p>Error: No se pudieron cargar los jugadores</p>';
-        }
-    } else {
-        console.warn('No se encontraron nombres en localStorage');
-        playerList.innerHTML = '<p>No hay jugadores. Regresa al formulario para agregar nombres.</p>';
+        iniciado = true;
+        renderPantallaPrincipal();
+    } catch {
+        panel.innerHTML = '<p>Error al cargar los jugadores.</p>';
+        console.error('Error al iniciar con datos guardados.');
     }
 });
 
-// Renderizar pantalla principal
-function renderMainScreen() {
-    console.log('Ejecutando renderMainScreen');
+// Renderizar pantalla principal del juego
+function renderPantallaPrincipal() {
+    const panel = $('player-list');
+    const resultado = $('result');
+    if (!panel || !iniciado) return;
 
-    const playerList = document.getElementById('player-list');
-    if (!playerList) {
-        console.error('Elemento player-list no encontrado');
-        return;
-    }
-
-    if (!iniciado) {
-        console.error('El juego no se inicializó correctamente');
-        playerList.innerHTML = '<p>Error: No se pudo iniciar el juego</p>';
-        return;
-    }
-
-    playerList.innerHTML = '';
     const jugadores = juego.getJugadores();
-    console.log('Renderizando jugadores:', jugadores.map(j => j.getNombre()));
+    panel.innerHTML = '';
 
-    if (jugadores.length === 0) {
-        console.warn('No hay jugadores disponibles');
-        playerList.innerHTML = '<p>No hay jugadores disponibles</p>';
+    if (!jugadores.length) {
+        panel.innerHTML = '<p>No hay jugadores disponibles</p>';
         return;
     }
 
-    jugadores.forEach(jugador => {
-        const playerDiv = document.createElement('div');
-        playerDiv.className = 'player';
-        if (jugador.estaMuerto()) {
-            playerDiv.classList.add('dead');
-            playerDiv.textContent = `${jugador.getNombre()} (Muerto)`;
-        } else if (jugador.haVotado()) {
-            playerDiv.classList.add('voted');
-            playerDiv.textContent = `${jugador.getNombre()} (Ha votado a: ${jugador.getVotoA()})`;
+    jugadores.forEach(j => {
+        const div = document.createElement('div');
+        div.className = 'player';
+        const nombre = j.getNombre();
+
+        if (j.estaMuerto()) {
+            div.classList.add('dead');
+            div.textContent = `${nombre} (Muerto)`;
+        } else if (j.haVotado()) {
+            div.classList.add('voted');
+            div.textContent = `${nombre} (Votó a: ${j.getVotoA()})`;
         } else {
-            playerDiv.textContent = jugador.getNombre();
-            playerDiv.onclick = () => {
-                console.log(`Clic en jugador: ${jugador.getNombre()}`);
-                showVoteScreen(jugador.getNombre());
-            };
+            div.textContent = nombre;
+            div.onclick = () => mostrarPantallaVoto(nombre);
         }
-        playerList.appendChild(playerDiv);
+
+        panel.appendChild(div);
     });
 
-    const resultElement = document.getElementById('result');
-    if (resultElement) {
-        console.log('Fase actual:', juego.getFase());
-        resultElement.textContent = `Fase actual: ${juego.getFase()}`;
-    } else {
-        console.error('Elemento result no encontrado');
-    }
+    if (resultado) resultado.textContent = `Fase actual: ${juego.getFase()}`;
 }
 
 // Mostrar pantalla de votación
-function showVoteScreen(playerName) {
-    console.log(`Mostrando pantalla de votación para: ${playerName}`);
-
+function mostrarPantallaVoto(nombreVotante) {
     if (juego.getFase() !== 'dia') {
-        console.warn('Intento de votar fuera de la fase día');
-        alert('Solo se puede votar durante el día.');
-        return;
+        return alert('Solo se puede votar durante el día.');
     }
 
-    const votante = juego.getJugadores().find(j => j.getNombre() === playerName);
-    if (votante && votante.haVotado()) {
-        console.warn(`El jugador ${playerName} ya votó`);
-        alert('Ya has votado en esta ronda.');
-        return;
+    const votante = juego.getJugadores().find(j => j.getNombre() === nombreVotante);
+    if (votante?.haVotado()) {
+        return alert('Ya has votado en esta ronda.');
     }
 
-    currentVoter = playerName;
-    const mainScreen = document.getElementById('main-screen');
-    const voteScreen = document.getElementById('vote-screen');
-    if (mainScreen && voteScreen) {
-        mainScreen.style.display = 'none';
-        voteScreen.style.display = 'block';
-    } else {
-        console.error('Elementos main-screen o vote-screen no encontrados');
-        return;
-    }
+    jugadorActual = nombreVotante;
 
-    const currentPlayer = document.getElementById('current-player');
-    if (currentPlayer) {
-        currentPlayer.textContent = playerName;
-    } else {
-        console.error('Elemento current-player no encontrado');
-    }
+    ocultar('main-screen');
+    mostrar('vote-screen');
 
-    const voteList = document.getElementById('vote-list');
-    if (!voteList) {
-        console.error('Elemento vote-list no encontrado');
-        return;
-    }
+    $('current-player').textContent = nombreVotante;
+    const listaVotos = $('vote-list');
+    listaVotos.innerHTML = '';
 
-    voteList.innerHTML = '';
-    const jugadores = juego.getJugadores();
-    console.log('Jugadores disponibles para votar:', jugadores.map(j => j.getNombre()));
-
-    jugadores.forEach(jugador => {
-        if (jugador.getNombre() !== playerName && !jugador.estaMuerto()) {
-            const playerDiv = document.createElement('div');
-            playerDiv.className = 'player';
-            playerDiv.textContent = jugador.getNombre();
-            playerDiv.onclick = () => {
-                console.log(`Votando por: ${jugador.getNombre()}`);
-                vote(jugador.getNombre());
-            };
-            voteList.appendChild(playerDiv);
+    juego.getJugadores().forEach(j => {
+        if (j.getNombre() !== nombreVotante && !j.estaMuerto()) {
+            const div = document.createElement('div');
+            div.className = 'player';
+            div.textContent = j.getNombre();
+            div.onclick = () => votarPor(j.getNombre());
+            listaVotos.appendChild(div);
         }
     });
 
-    if (voteList.children.length === 0) {
-        console.warn('No hay jugadores disponibles para votar');
-        voteList.innerHTML = '<p>No hay jugadores disponibles para votar</p>';
+    if (!listaVotos.children.length) {
+        listaVotos.innerHTML = '<p>No hay jugadores disponibles para votar</p>';
     }
 }
 
-// Registrar voto
-function vote(playerName) {
-    console.log(`Registrando voto de ${currentVoter} por ${playerName}`);
-
-    if (juego.votar(currentVoter, playerName)) {
-        backToMain();
-
-        // Verificar si todos los jugadores vivos han votado
-        const todosVotaron = juego.getJugadores().every(jugador =>
-            jugador.estaMuerto() || jugador.haVotado()
-        );
-        if (todosVotaron) {
-            console.log('Todos los jugadores han votado, finalizando votación');
-            finalizarVotacion();
-        }
-    } else {
-        console.error('Error al registrar el voto');
-        alert('Error al registrar el voto');
+// Registrar el voto
+function votarPor(nombreObjetivo) {
+    if (!juego.votar(jugadorActual, nombreObjetivo)) {
+        return alert('Error al registrar el voto.');
     }
+
+    volverAPrincipal();
+
+    const todosVotaron = juego.getJugadores().every(j => j.estaMuerto() || j.haVotado());
+    if (todosVotaron) finalizarVotacion();
 }
 
 // Volver a la pantalla principal
-function backToMain() {
-    console.log('Volviendo a la pantalla principal');
-
-    const mainScreen = document.getElementById('main-screen');
-    const voteScreen = document.getElementById('vote-screen');
-    if (mainScreen && voteScreen) {
-        mainScreen.style.display = 'block';
-        voteScreen.style.display = 'none';
-        renderMainScreen();
-    } else {
-        console.error('Elementos main-screen o vote-screen no encontrados');
-    }
+function volverAPrincipal() {
+    mostrar('main-screen');
+    ocultar('vote-screen');
+    renderPantallaPrincipal();
 }
 
 // Finalizar votación
 function finalizarVotacion() {
-    console.log('Finalizando votación');
-
     if (juego.getFase() !== 'dia') {
-        console.warn('Intento de finalizar votación fuera de la fase día');
-        alert('La votación solo puede finalizar durante el día.');
-        return;
+        return alert('Solo se puede finalizar la votación de día.');
     }
 
-    const resultText = juego.finalizarVotacion();
-    const resultElement = document.getElementById('result');
-    if (resultElement) {
-        resultElement.innerHTML = `<strong>${resultText}</strong>`;
-    } else {
-        console.error('Elemento result no encontrado');
-    }
+    const resultado = $('result');
+    if (resultado) resultado.innerHTML = `<strong>${juego.finalizarVotacion()}</strong>`;
 
-    // Mostrar el botón de cambio de fase
-    const changePhaseButton = document.getElementById('change-phase');
-    if (changePhaseButton) {
-        changePhaseButton.style.display = 'block';
-    }
-
-    // Ocultar el botón de finalizar votación
-    const finalizeButton = document.getElementById('finalize-vote');
-    if (finalizeButton) {
-        finalizeButton.style.display = 'none';
-    }
-
-    renderMainScreen();
+    mostrar('change-phase');
+    ocultar('finalize-vote');
+    renderPantallaPrincipal();
 }
 
-// Cambiar a la siguiente fase
+// Cambiar fase
 function cambiarFase() {
-    console.log('Cambiando fase');
-
     juego.siguienteFase();
 
-    const resultElement = document.getElementById('result');
-    if (resultElement) {
-        resultElement.innerHTML = `<strong>Fase actual: ${juego.getFase()}</strong>`;
-    }
-
-
-    // Mostrar el botón de finalizar votación si la nueva fase es 'dia'
-    const finalizeButton = document.getElementById('finalize-vote');
-    if (finalizeButton && juego.getFase() === 'dia') {
-        finalizeButton.style.display = 'block';
-    }
-
-    renderMainScreen();
-
     const fase = juego.getFase();
-    console.log('Nueva fase:', fase);
-    if (fase === 'los aldeanos ganaron' || fase === 'los lobos ganaron') {
-        alert(`Juego terminado! ${fase}`);
+    $('result').innerHTML = `<strong>Fase actual: ${fase}</strong>`;
+
+    if (fase === 'dia') {
+        mostrar('finalize-vote');
+    }
+
+    renderPantallaPrincipal();
+
+    if (fase.includes('ganaron')) {
+        alert(`Juego terminado: ${fase}`);
         localStorage.removeItem('jugadores');
     }
 }
