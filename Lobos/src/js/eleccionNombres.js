@@ -8,14 +8,13 @@ let contador = 1;
 
 btnAgregarNuevoJugador.addEventListener("click", () => {
     const nuevoCampo = document.createElement("nuevoCampo");
+
+    // le especifico la clase para luego meter en un array todos los inputs que tenga esa clase
     nuevoCampo.innerHTML =
         `<input 
         type="text" 
         placeholder="Nombre del jugador ${contador}" 
-        
-        <!--le especifico la clase para luego meter en un array todos los inputs que tenga esa clase-->
         class="input-nombre" 
-        
         id="jugador-${contador}" 
         required>
         `;
@@ -39,5 +38,5 @@ formulario.addEventListener("submit", e => {
 
 
     console.log("Nombres: ", localStorage.listaNombres);
-    window.location.href = "dashboardPersonajes.html";
+    window.location.href = "./dashboardPersonajes.html";
 });

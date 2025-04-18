@@ -1,10 +1,14 @@
 class Juego {
-    #fase = 'dia';
-    #turno;
+    #fase = "";
     #listaJugadores = [];
-    #numero_lobos = 1;
-    #numero_jugadores = 5;
-    //#numero_aldeanos = this.#numero_jugadores - this.#numero_lobos
+    #roles = {
+        aldeanos: 4,
+        lobos: 1
+    }
+
+    constructor() {
+        localStorage.roles = this.#roles
+    }
 
     getJugadores() {
         return this.#listaJugadores;
@@ -12,53 +16,21 @@ class Juego {
     getFase() {
         return this.#fase;
     }
-    // Getter dinámico para el número de aldeanos vivos
-    get numero_aldeanos() {
-        return this.#listaJugadores.filter(jugador =>
-            jugador.getRol() === 'aldeano' && !jugador.estaMuerto()
-        ).length;
-    }
 
-    // Getter dinámico para el número de lobos vivos
-    /*get numero_lobos() {
-        return this.#listaJugadores.filter(jugador =>
-            jugador.getRol() === 'lobo' && !jugador.estaMuerto()
-        ).length;
-    }*/
 
-    reordenarLista(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
 
-    iniciarJuego(listaNombres) {
+
+    iniciarJuego() {
+        const listaNombres = JSON.parse(localStorage.listaNombre);
         // Validar Lista
         if (listaNombres.length < this.#numero_jugadores) {
             console.error("No hay suficientes nombres para iniciar el juego");
             return;
         }
-        // Limpiar lista anterior
-        this.#listaJugadores = [];
-        // Reordenar aleatoriamente
-        listaNombres = this.reordenarLista(listaNombres);
 
-        // Crear Jugadores
-        let lobosSinAsignar = this.#numero_lobos;
-        listaNombres.forEach((nombre) => { 
-            if (lobosSinAsignar > 0) {
-                this.#listaJugadores.push(new Jugador(nombre, "lobo"));
-            } else {
-                this.#listaJugadores.push(new Jugador(nombre, "aldeano"));
-            }
 
-            lobosSinAsignar--;
-        });
-        this.#fase = 'dia';
-        this.#turno = 0;
-        return listaNombres;
+
+
     }
 
     siguienteFase() {
