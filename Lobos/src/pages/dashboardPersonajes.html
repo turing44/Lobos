@@ -4,13 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego de Lobos</title>
-    <link rel="stylesheet" href="../styles/estiloParaVotacion.css">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=16541&format=png&color=000000">
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/dashboardPersonajes.css">
 </head>
     <body>
+        <header>
+            <h1 id="fase"></h1>
+        </header>
+
         <div id="contenedor-principal"></div>
         <button id="siguiente-fase">Siguiente</button>
 
-
+        <audio id="sonidoAldeano" src="../../public/sonidoAldeano.mp3" preload="auto"></audio>
+        <audio id="sonidoLobo" src="../../public/sonidoLobo.mp3" preload="auto"></audio>
 
         <script src="../js/Jugador.js"></script>
         <script src="../js/Juego.js"></script>

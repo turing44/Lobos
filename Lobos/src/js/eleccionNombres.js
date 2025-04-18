@@ -32,7 +32,7 @@ formulario.addEventListener("submit", e => {
     const listaNombres = Array.from(inputs)
         .map(input => input.value.trim());
 
-    localStorage.setItem(JSON.stringify(listaNombres));
+    localStorage.setItem("listaNombres", JSON.stringify(listaNombres));
 
 
     console.log("Nombres: ", localStorage.listaNombres);

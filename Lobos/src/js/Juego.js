@@ -4,7 +4,7 @@ class Juego {
     #numero_jugadores = 0;
 
     #roles = {
-        "aldeano": 4,
+        "aldeano": 3,
         "lobo": 1
     };
 
@@ -12,6 +12,7 @@ class Juego {
     constructor() {
         localStorage.roles = this.#roles;
         this.#numero_jugadores = this.obtenerNumeroJugadores();
+        this.#fase = "NOCHE";
     }
 
     getListaJugadores() {
@@ -30,6 +31,37 @@ class Juego {
         this.#listaJugadores = this.reordenarLista(this.crearJugadores(listaNombres));
 
     }
+
+
+    comprobarVictoria() {
+        let numeroLobos = 0;
+        let numeroAldeanos = 0;
+
+        for (let jugador of this.#listaJugadores) {
+            if (jugador.estaVivo()) {
+                if (jugador.getRol() === 'lobo'){
+                    numeroLobos += 1;
+                }
+                else {
+                    numeroAldeanos += 1;
+                }
+            }
+        }
+
+        if (numeroLobos === 0) {
+            return "LOS ALDEANOS GANARON";
+        }
+        else if (numeroLobos >= numeroAldeanos) {
+            return "LOS LOBOS GANARON";
+
+        }
+        else {
+            return "AUN HAY LOBOS";
+        }
+    }
+
+
+
 
     reordenarLista(jugadores) {
         for (let i = jugadores.length - 1; i > 0; i--) {
@@ -62,4 +94,6 @@ class Juego {
         console.log(jugadores);
         return jugadores;
     }
+
+
 }
