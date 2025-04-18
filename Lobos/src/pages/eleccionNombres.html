@@ -3,26 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jugadores</title>
-    <link rel="stylesheet" href="../styles/asignacionNombres.css">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=16541&format=png&color=000000">
+    <title>Eleccion Nombres</title>
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/eleccionNombres.css">
 </head>
 <body>
-<div class="form-container">
-    <h2>Creación de Jugadores</h2>
-    <form id="formularioJugadores">
-        <div id="listaJugadores">
-            <div class="player-input">
-                <label for="jugador1">Nombre del Jugador 1:</label>
-                <input type="text" id="jugador1" name="jugador1" required>
-            </div>
-        </div>
-        <button type="button" onclick="agregarJugador()" id="agregar">Añadir otro jugador</button>
-        <br><br>
-        <button type="submit">Enviar</button>
-    </form>
-</div>
-<script src="../js/Jugador.js"></script>
-<script src="../js/Juego.js"></script>
-<script src="../js/estiloVotar.js"></script>
+    <div class="form-container">
+        <h2>Creación de Jugadores</h2>
+        <form id="formulario-jugadores">
+
+            <div id="inputs-jugadores"></div>
+
+            <button type="button" id="agregar-nuevo-jugador">Añadir otro jugador</button>
+            <button type="submit">Enviar</button>
+
+        </form>
+    </div>
+    <script src="../js/eleccionNombres.js"></script>
+
+
 </body>
 </html>
