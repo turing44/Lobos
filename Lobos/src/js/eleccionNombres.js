@@ -2,8 +2,6 @@ const inputsJugadores = document.getElementById("inputs-jugadores");
 const btnAgregarNuevoJugador = document.getElementById("agregar-nuevo-jugador");
 const formulario = document.getElementById("formulario-jugadores");
 
-
-
 let contador = 1;
 
 btnAgregarNuevoJugador.addEventListener("click", () => {
@@ -34,7 +32,7 @@ formulario.addEventListener("submit", e => {
     const listaNombres = Array.from(inputs)
         .map(input => input.value.trim());
 
-    localStorage.listaNombres = JSON.stringify(listaNombres);
+    localStorage.setItem(JSON.stringify(listaNombres));
 
 
     console.log("Nombres: ", localStorage.listaNombres);

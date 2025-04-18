@@ -1,7 +1,7 @@
 class Jugador{
     #nombre = "";
     #rol = "";
-    #vivo= false;
+    #vivo= true;
 
 
     constructor(nombre,rol) {
