@@ -1,5 +1,4 @@
 class Juego {
-    #fase = "";
     #listaJugadores = [];
     #numero_jugadores = 0;
 
@@ -12,18 +11,11 @@ class Juego {
     constructor() {
         localStorage.roles = this.#roles;
         this.#numero_jugadores = this.obtenerNumeroJugadores();
-        this.#fase = "NOCHE";
     }
 
     getListaJugadores() {
         return this.#listaJugadores;
     }
-    getFase() {
-        return this.#fase;
-    }
-
-
-
 
     iniciarJuego(){
         const listaNombres = JSON.parse(localStorage.getItem("listaNombres"));
@@ -60,9 +52,6 @@ class Juego {
         }
     }
 
-
-
-
     reordenarLista(jugadores) {
         for (let i = jugadores.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -93,6 +82,14 @@ class Juego {
 
         console.log(jugadores);
         return jugadores;
+    }
+
+    matarJugador(nombre) {
+        for (let jugador of this.getListaJugadores()) {
+            if (nombre === jugador.getNombre()){
+                jugador.matar();
+            }
+        }
     }
 
 
